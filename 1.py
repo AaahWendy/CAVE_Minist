@@ -9,8 +9,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 
-# 构建VAE模型，主要由Encoder和Decoder组成
-class VAE(nn.Module):
+class CVAE(nn.Module):
     def __init__(self, image_size=784, h_dim=400, z_dim=20):
         super().__init__()
         self.fc1 = nn.Linear(image_size, h_dim)
@@ -91,7 +90,7 @@ if __name__ == '__main__':
     plt.show()
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = VAE().to(device)
+    model = CVAE().to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     losses = []
@@ -124,7 +123,7 @@ if __name__ == '__main__':
         valloss.append(lossval)
         print('epoch: {}| trainloss: {}, valloss: {}'.format(epoch, train_loss / len(data_loader),lossval))
 
-    torch.save(model.state_dict(), './vae.pth')
+    torch.save(model.state_dict(), './Cvae.pth')
 
     plt.title('loss')
     plt.plot(losses, color='b', label='train_losses')
